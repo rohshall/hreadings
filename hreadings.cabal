@@ -13,21 +13,18 @@ executable hreadings
   main-is:             Main.hs
   -- other-modules:       
   build-depends:       base
+                     , containers
                      , wai
                      , warp
                      , http-types
                      , resourcet
                      , scotty
                      , text
+                     , aeson
                      , bytestring
-                     , blaze-html
-                     , persistent
-                     , persistent-template
-                     , persistent-sqlite
-                     , persistent-postgresql
+                     , postgresql-simple
                      , heroku
                      , transformers
-                     , wai-middleware-static
                      , wai-extra
                      , time
                      , monad-logger

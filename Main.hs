@@ -5,15 +5,21 @@ import GHC.Generics (Generic)
 import Data.Aeson (FromJSON, ToJSON, decode, encode)
 import qualified Data.Text.Lazy as T
 import qualified Data.ByteString.Lazy as BL
--- import Data.Text.Lazy.Encoding (decodeUtf8)
+import Database.PostgreSQL.Simple
+
 
 data Device = Device {
-  deviceTypeId :: Int,
-  macAddr :: BL.ByteString
+  id :: Int,
+  mac_addr :: BL.ByteString,
+  device_type_id :: Int,
+  manufactured_at :: Timestamp,
+  registered_at :: Timestamp
 } deriving (Generic, Show)
 
 data Reading = Reading {
-  value :: BL.ByteString
+  value :: BL.ByteString,
+  created_at :: Timestamp,
+  device_mac_addr :: Int
 } deriving (Generic, Show)
 
 instance FromJSON Device
@@ -24,6 +30,8 @@ instance ToJSON Reading
 main = scotty 3000 $ do
 
   get "/api/1/devices" $ do
+    conn <- connect defaultConnectInfo { connectHost = "localhost", connectUser = "sd_ventures", connectPassword = "", connectDatabase = "sd_ventures_development" }
+    devices <- query conn "SELECT device_type_id, mac_addr FROM devices"
     json $ [Device {deviceTypeId=10, macAddr="Impedence Measurement Device"},
       Device{deviceTypeId=20, macAddr="NIBP measurement device"}]
 
