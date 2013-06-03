@@ -23,6 +23,7 @@ executable hreadings
                      , aeson
                      , bytestring
                      , postgresql-simple
+                     , old-locale
                      , heroku
                      , transformers
                      , wai-extra
